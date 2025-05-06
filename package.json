@@ -1,5 +1,5 @@
 {
-  "name": "@capacitor-community/photoviewer",
+  "name": "@restrella/capacitor-photoviewer",
   "version": "7.0.0",
   "description": "PhotoViewer table images with fullscreen and sharing capabilities",
   "main": "dist/plugin.cjs.js",
@@ -13,14 +13,14 @@
     "ios/Plugin/",
     "CapacitorCommunityPhotoviewer.podspec"
   ],
-  "author": "Jean Pierre Quéau",
+  "author": "Ramiro Estrella",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/capacitor-community/photoviewer.git"
+    "url": "git+https://github.com/balance3840/photoviewer.git"
   },
   "bugs": {
-    "url": "https://github.com/capacitor-community/photoviewer/issues"
+    "url": "https://github.com/balance3840/photoviewer/issues"
   },
   "keywords": [
     "capacitor",

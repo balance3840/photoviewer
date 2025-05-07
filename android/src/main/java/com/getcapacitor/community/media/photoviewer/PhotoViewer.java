@@ -1,7 +1,11 @@
 package com.getcapacitor.community.media.photoviewer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import com.getcapacitor.Bridge;
 import com.getcapacitor.BridgeActivity;
@@ -14,6 +18,8 @@ import com.getcapacitor.community.media.photoviewer.fragments.MainFragment;
 import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class PhotoViewer extends BridgeActivity {
 
@@ -60,8 +66,23 @@ public class PhotoViewer extends BridgeActivity {
             );
             // Apply the Layout Parameters to frameLayout
             frameLayoutView.setLayoutParams(lp);
-            // Add FrameLayout to bridge_layout_main
+
+
+            // Ensure content respects system UI (status/navigation bar) insets
+            ViewCompat.setOnApplyWindowInsetsListener(frameLayoutView, (v, insets) -> {
+                WindowInsetsCompat sysInsets = insets;
+                v.setPadding(
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+                );
+                return insets;
+            });
+
+            // Add FrameLayout to the main layout
             ((ViewGroup) bridge.getWebView().getParent()).addView(frameLayoutView);
+
             final MainFragment mainFragment = new MainFragment();
             mainFragment.setImageList(imageList);
             mainFragment.setOptions(options);
@@ -79,17 +100,31 @@ public class PhotoViewer extends BridgeActivity {
 
     private void createImageFragment(ArrayList<Image> imageList, Integer startFrom, JSObject options) throws Exception {
         try {
-            // Initialize a new FrameLayout as container for fragment
+            // Create a FrameLayout container
             FrameLayout frameLayoutView = new FrameLayout(context);
             frameLayoutView.setId(frameLayoutViewId);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
             );
-            // Apply the Layout Parameters to frameLayout
             frameLayoutView.setLayoutParams(lp);
-            // Add FrameLayout to bridge_layout_main
+
+            // Ensure content respects system UI (status/navigation bar) insets
+            ViewCompat.setOnApplyWindowInsetsListener(frameLayoutView, (v, insets) -> {
+                WindowInsetsCompat sysInsets = insets;
+                v.setPadding(
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+                );
+                return insets;
+            });
+
+            // Add FrameLayout to the main layout
             ((ViewGroup) bridge.getWebView().getParent()).addView(frameLayoutView);
+
+            // Initialize and load fragment
             final ImageFragment imageFragment = new ImageFragment();
             imageFragment.setImage(imageList.get(startFrom));
             imageFragment.setOptions(options);
@@ -106,6 +141,7 @@ public class PhotoViewer extends BridgeActivity {
         }
     }
 
+
     private void createSliderFragment(ArrayList<Image> imageList, Integer startFrom, JSObject options) throws Exception {
         try {
             // Initialize a new FrameLayout as container for fragment
@@ -117,8 +153,23 @@ public class PhotoViewer extends BridgeActivity {
             );
             // Apply the Layout Parameters to frameLayout
             frameLayoutView.setLayoutParams(lp);
-            // Add FrameLayout to bridge_layout_main
+
+
+            // Ensure content respects system UI (status/navigation bar) insets
+            ViewCompat.setOnApplyWindowInsetsListener(frameLayoutView, (v, insets) -> {
+                WindowInsetsCompat sysInsets = insets;
+                v.setPadding(
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+                );
+                return insets;
+            });
+
+            // Add FrameLayout to the main layout
             ((ViewGroup) bridge.getWebView().getParent()).addView(frameLayoutView);
+            
             final GalleryFullscreenFragment galleryFragment = new GalleryFullscreenFragment();
             galleryFragment.setImageList(imageList);
             galleryFragment.setStartFrom(startFrom);

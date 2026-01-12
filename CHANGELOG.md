@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/capacitor-community/photoviewer/compare/v7.1.0...v8.0.0) (2026-01-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* This plugin now supports Capacitor 8.
+
+### Features
+
+* update to Capacitor 8 ([#91](https://github.com/capacitor-community/photoviewer/issues/91)) ([22f99af](https://github.com/capacitor-community/photoviewer/commit/22f99af49e419dbd8e9113b5582f7791d5c095e5))
+
 ## [7.1.0](https://github.com/capacitor-community/photoviewer/compare/v7.0.0...v7.1.0) (2025-10-24)
 
 

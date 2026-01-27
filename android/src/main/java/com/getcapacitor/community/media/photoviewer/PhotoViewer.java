@@ -1,11 +1,7 @@
 package com.getcapacitor.community.media.photoviewer;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import com.getcapacitor.Bridge;
 import com.getcapacitor.BridgeActivity;
@@ -18,8 +14,6 @@ import com.getcapacitor.community.media.photoviewer.fragments.MainFragment;
 import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class PhotoViewer extends BridgeActivity {
 
@@ -55,44 +49,40 @@ public class PhotoViewer extends BridgeActivity {
         }
     }
 
+    private int getStatusBarHeight() {
+        int statusBarHeight = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight;
+    }
+
     private void createMainFragment(ArrayList<Image> imageList, JSObject options) throws Exception {
         try {
             // Initialize a new FrameLayout as container for fragment
             FrameLayout frameLayoutView = new FrameLayout(context);
             frameLayoutView.setId(frameLayoutViewId);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
             );
             // Apply the Layout Parameters to frameLayout
             frameLayoutView.setLayoutParams(lp);
-
-
-            // Ensure content respects system UI (status/navigation bar) insets
-            ViewCompat.setOnApplyWindowInsetsListener(frameLayoutView, (v, insets) -> {
-                WindowInsetsCompat sysInsets = insets;
-                v.setPadding(
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-                );
-                return insets;
-            });
-
-            // Add FrameLayout to the main layout
+            // Add top padding to account for status bar
+            frameLayoutView.setPadding(0, getStatusBarHeight(), 0, 0);
+            // Add FrameLayout to bridge_layout_main
             ((ViewGroup) bridge.getWebView().getParent()).addView(frameLayoutView);
-
             final MainFragment mainFragment = new MainFragment();
             mainFragment.setImageList(imageList);
             mainFragment.setOptions(options);
 
             bridge
-                .getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(frameLayoutViewId, mainFragment, "mainfragment")
-                .commit();
+                    .getActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(frameLayoutViewId, mainFragment, "mainfragment")
+                    .commit();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -100,47 +90,34 @@ public class PhotoViewer extends BridgeActivity {
 
     private void createImageFragment(ArrayList<Image> imageList, Integer startFrom, JSObject options) throws Exception {
         try {
-            // Create a FrameLayout container
+            // Initialize a new FrameLayout as container for fragment
             FrameLayout frameLayoutView = new FrameLayout(context);
             frameLayoutView.setId(frameLayoutViewId);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
             );
+            // Apply the Layout Parameters to frameLayout
             frameLayoutView.setLayoutParams(lp);
-
-            // Ensure content respects system UI (status/navigation bar) insets
-            ViewCompat.setOnApplyWindowInsetsListener(frameLayoutView, (v, insets) -> {
-                WindowInsetsCompat sysInsets = insets;
-                v.setPadding(
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-                );
-                return insets;
-            });
-
-            // Add FrameLayout to the main layout
+            // Add top padding to account for status bar
+            frameLayoutView.setPadding(0, getStatusBarHeight(), 0, 0);
+            // Add FrameLayout to bridge_layout_main
             ((ViewGroup) bridge.getWebView().getParent()).addView(frameLayoutView);
-
-            // Initialize and load fragment
             final ImageFragment imageFragment = new ImageFragment();
             imageFragment.setImage(imageList.get(startFrom));
             imageFragment.setOptions(options);
             imageFragment.setStartFrom(startFrom);
 
             bridge
-                .getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(frameLayoutViewId, imageFragment, "imagefragment")
-                .commit();
+                    .getActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(frameLayoutViewId, imageFragment, "imagefragment")
+                    .commit();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
-
 
     private void createSliderFragment(ArrayList<Image> imageList, Integer startFrom, JSObject options) throws Exception {
         try {
@@ -148,28 +125,15 @@ public class PhotoViewer extends BridgeActivity {
             FrameLayout frameLayoutView = new FrameLayout(context);
             frameLayoutView.setId(frameLayoutViewId);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
             );
             // Apply the Layout Parameters to frameLayout
             frameLayoutView.setLayoutParams(lp);
-
-
-            // Ensure content respects system UI (status/navigation bar) insets
-            ViewCompat.setOnApplyWindowInsetsListener(frameLayoutView, (v, insets) -> {
-                WindowInsetsCompat sysInsets = insets;
-                v.setPadding(
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
-                    sysInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-                );
-                return insets;
-            });
-
-            // Add FrameLayout to the main layout
+            // Add top padding to account for status bar
+            frameLayoutView.setPadding(0, getStatusBarHeight(), 0, 0);
+            // Add FrameLayout to bridge_layout_main
             ((ViewGroup) bridge.getWebView().getParent()).addView(frameLayoutView);
-            
             final GalleryFullscreenFragment galleryFragment = new GalleryFullscreenFragment();
             galleryFragment.setImageList(imageList);
             galleryFragment.setStartFrom(startFrom);
@@ -178,11 +142,11 @@ public class PhotoViewer extends BridgeActivity {
             galleryFragment.setStartFrom(startFrom);
 
             bridge
-                .getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(frameLayoutViewId, galleryFragment, "gallery")
-                .commit();
+                    .getActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(frameLayoutViewId, galleryFragment, "gallery")
+                    .commit();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
